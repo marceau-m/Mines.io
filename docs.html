@@ -1,0 +1,271 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+   <title>API Documentation</title>
+</head>
+<body style="font-family:'Gill Sans Extrabold', sans-serif;">
+    <div style="height: 200px; background: linear-gradient(.25turn, #04AA6D, #04a4aa);">
+        <h1 style="position: absolute; text-align: center; font-size: 45px; color: white; margin-top: 80px; margin-left: 38%">API Documentation</h1>
+    </div>
+
+    <div style="margin: 50px">
+
+    <p>URL de base pour les <strong style="color: #04AA6D">endpoints </strong>: <a href="https://mymineio.herokuapp.com"> https://mymineio.herokuapp.com</a></p>
+    <br>
+
+    <table style="border-collapse: collapse; width: 80%; height: 126px; margin-left: 10%;" border="1">
+        <tbody>
+    <tr style="height: 18px;">
+    <th style="height: 18px; padding: 8px; background-color: #04AA6D"><span style="font-size: 20px; color: white">Endpoints</span></th>
+    <th style="height: 18px; padding: 8px; background-color: #04AA6D"><span style="font-size: 20px; color: white">Description</span></th>
+    </tr>
+    <tr style="height: 18px; background-color: #f2f2f2">
+    <td style="width: 50%; padding: 8px; height: 18px;"><strong>GET</strong> /leaderboard</td>
+    <td style="width: 50%; padding: 8px; height: 18px;">Renvoie des informations sur les 5 premiers joueurs</td>
+    </tr>
+    <tr style="height: 18px;">
+    <td style="width: 50%; padding: 8px; height: 18px;"><strong>GET</strong> /users</td>
+    <td style="width: 50%; padding: 8px; height: 18px;">Renvoie la liste des joueurs</td>
+    </tr>
+    <tr style="height: 18px; background-color: #f2f2f2">
+    <td style="width: 50%; padding: 8px; height: 18px;"><strong>GET</strong> /users/:name</td>
+    <td style="width: 50%; padding: 8px; height: 18px;">Renvoie les informations sur un joueur</td>
+    </tr>
+    <tr style="height: 18px;">
+    <td style="width: 50%; padding: 8px; height: 18px;"><strong>POST</strong> /users</td>
+    <td style="width: 50%; padding: 8px; height: 18px;">Cr&eacute;&eacute; un joueur et renvoie la liste des joueurs</td>
+    </tr>
+    <tr style="height: 18px; background-color: #f2f2f2">
+    <td style="width: 50%; padding: 8px; height: 18px;"><strong>PUT</strong> /users/:name</td>
+    <td style="width: 50%; padding: 8px; height: 18px;">Modifie les informations d'un joueur et les renvoie</td>
+    </tr>
+    <tr style="height: 18px;">
+    <td style="width: 50%; padding: 8px; height: 18px;"><strong>DELETE</strong> /users/:name</td>
+    <td style="width: 50%; padding: 8px; height: 18px;">Supprime un joueur et renvoie la liste des joueurs</td>
+    </tr>
+    </tbody>
+    </table>
+    <br>
+
+
+    <h2><ul><li style="color: #04AA6D"><span style="text-decoration: underline;">GET /leaderboard</span></li></ul></h2>
+    <p>Renvoie des informations sur les 5 premiers joueurs.</p>
+    <h5 style="color: #04AA6D">Exemple de r&eacute;ponse :</h5>
+    <div style="border: 2px solid #04AA6D; border-radius: 25px; width: 40%;">
+        <pre>
+            <code>
+                {
+                    "players": [{
+                        "username": "todor",
+                        "size": 128
+                    }, {
+                        "username": "ciarletta",
+                        "size": 100
+                    }, {
+                        "username": "vaxou",
+                        "size": 75
+                    }, {
+                        "username": "marceau",
+                        "size": 41
+                    }, {
+                        "username": "julien",
+                        "size": 12
+                    }]
+                }
+            </code>
+        </pre>
+    </div>
+    <br>
+
+    <h2><ul><li style="color: #04AA6D"><span style="text-decoration: underline;">GET /users</span></li></ul></h2>
+    <p>Renvoie la liste des joueurs.</p>
+    <h5 style="color: #04AA6D">Exemple de r&eacute;ponse :</h5>
+    <div style="border: 2px solid #04AA6D; border-radius: 25px; width: 40%;">
+        <pre>
+            <code>
+                {
+                    "marceau": {
+                        "position": [
+                            15,
+                            7
+                        ],
+                        "size": 41,
+                        "color": "vaxou"
+                    },
+                    "vaxou": {
+                        "position": [
+                            42,
+                            7
+                        ],
+                        "size": 76,
+                        "color": "vaxou"
+                    },
+                    "todor": {
+                        "position": [
+                            70,
+                            70
+                        ],
+                        "size": 150,
+                        "color": "vaxou"
+                    }
+                }
+            </code>
+        </pre>
+    </div>
+    <br>
+
+    <h2><ul><li style="color: #04AA6D"><span style="text-decoration: underline;">GET /users/:name</span></li></ul></h2>
+    <p> 	Renvoie les informations sur un joueur.</p>
+    <h5 style="color: #04AA6D">Exemple de requête :</h5>
+    <p style="width: 400px; color: grey; background-color: #f2f2f2;">GET https://mymineio.herokuapp.com/users/todor</p>
+    <h5 style="color: #04AA6D">Exemple de r&eacute;ponse :</h5>
+    <div style="border: 2px solid #04AA6D; border-radius: 25px; width: 40%;">
+        <pre>
+            <code>
+                {
+                    "position": [
+                        70,
+                        70
+                    ],
+                    "size": 150,
+                    "color": "vaxou"
+                }
+            </code>
+        </pre>
+    </div>
+    <br>
+
+    <h2><ul><li style="color: #04AA6D"><span style="text-decoration: underline;">POST /users</span></li></ul></h2>
+    <p> 	Créé un joueur et renvoie la liste des joueurs. Les informations du joueur sont à renseigner dans le body de la requête HTTP.</p>
+    <p> 	Ne pas oublier de renseigner dans l'entête de la requête : <strong style="color: #04AA6D">Content-Type: application/json</strong></p>
+    <h5 style="color: #04AA6D">Exemple de body : </h5>
+    <div style="border: 2px solid #04AA6D; border-radius: 25px; width: 40%;">
+        <pre>
+            <code>
+                {
+                    "ciarletta": {
+                        "position": [
+                            40,
+                            56
+                        ],
+                        "size": 436,
+                        "color": "vaxou"
+                    }
+                }
+            </code>
+        </pre>
+    </div>
+    <h5 style="color: #04AA6D">Exemple de r&eacute;ponse :</h5>
+    <div style="border: 2px solid #04AA6D; border-radius: 25px; width: 40%;">
+        <pre>
+            <code>
+                {
+                    "vaxou": {
+                        "position": [
+                            42,
+                            7
+                        ],
+                        "size": 76,
+                        "color": "vaxou"
+                    },
+                    "todor": {
+                        "position": [
+                            70,
+                            70
+                        ],
+                        "size": 150,
+                        "color": "vaxou"
+                    },
+                    "ciarletta": {
+                        "position": [
+                            40,
+                            56
+                        ],
+                        "size": 436,
+                        "color": "vaxou"
+                    }
+                }
+            </code>
+        </pre>
+    </div>
+    <br>
+
+    <h2><ul><li style="color: #04AA6D"><span style="text-decoration: underline;">PUT /users/:name</span></li></ul></h2>
+    <p> 	Modifie les informations d'un joueur et les renvoie. Les informations du joueur sont à renseigner dans le body de la requête HTTP.</p>
+    <p> 	Ne pas oublier de renseigner dans l'entête de la requête : <strong style="color: #04AA6D">Content-Type: application/json</strong></p>
+    <h5 style="color: #04AA6D">Exemple de requête :</h5>
+    <p style="width: 425px; color: grey; background-color: #f2f2f2;">PUT https://mymineio.herokuapp.com/users/ciarletta</p>
+    <h5 style="color: #04AA6D">Exemple de body :</h5>
+    <div style="border: 2px solid #04AA6D; border-radius: 25px; width: 40%;">
+        <pre>
+            <code>
+                {
+                    "position": [
+                        100,
+                        100
+                    ],
+                    "size": 3000,
+                    "color": "vaxou"
+                }
+            </code>
+        </pre>
+    </div>
+    <h5 style="color: #04AA6D">Exemple de r&eacute;ponse :</h5>
+    <div style="border: 2px solid #04AA6D; border-radius: 25px; width: 40%;">
+        <pre>
+            <code>
+                {
+                    "position": [
+                        100,
+                        100
+                    ],
+                    "size": 3000,
+                    "color": "vaxou"
+                }
+            </code>
+        </pre>
+    </div>
+    <br>
+
+    <h2><ul><li style="color: #04AA6D"><span style="text-decoration: underline;">DELETE /users/:name</span></li></ul></h2>
+    <p> 	 	Supprime un joueur et renvoie la liste des joueurs.</p>
+    <h5 style="color: #04AA6D">Exemple de requête :</h5>
+    <p style="width: 460px; color: grey; background-color: #f2f2f2;">DELETE https://mymineio.herokuapp.com/users/marceau</p>
+    <h5 style="color: #04AA6D">Exemple de r&eacute;ponse :</h5>
+    <div style="border: 2px solid #04AA6D; border-radius: 25px; width: 40%;">
+        <pre>
+            <code>
+                {
+                    "vaxou": {
+                        "position": [
+                            42,
+                            7
+                        ],
+                        "size": 76,
+                        "color": "vaxou"
+                    },
+                    "todor": {
+                        "position": [
+                            70,
+                            70
+                        ],
+                        "size": 150,
+                        "color": "vaxou"
+                    },
+                    "ciarletta": {
+                        "position": [
+                            100,
+                            100
+                        ],
+                        "size": 3000,
+                        "color": "vaxou"
+                    }
+                }
+            </code>
+        </pre>
+    </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Mines.IO</title>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+<body style="font-family:'Gill Sans Extrabold', sans-serif;">
+
+  <div style="background-image: linear-gradient(270deg, rgba(255,255,255,1) 0% 40%, rgba(255,255,255,1) 40%, rgba(255,255,255,0) 100%),
+  url('images/minesio_login_background.jpg'); position: absolute; top: 0; left: 0; height: 100%; width: 100%;">
+
+<div style="padding: 30px; position: absolute; right: 10%; top:10%; height:450px; width:400px; border: 2px solid #04AA6D; border-radius: 25px;">
+
+  <p style="font-size: 30px; text-align: center; color:#04AA6D"><strong>Mines.io</strong></p>
+
+    <div style="position: absolute; top: 100px;">
+    <form action="" method="get" class="form-example" onsubmit="return (envoiCredential());">
+      <div class="form-example" style="position: relative; top: 10px;">
+        <label for="pseudo" style="margin-right: 10px">Nickname</label>
+        <input type="text" name="pseudo" id="pseudo" required>
+      </div>
+      <div class="form-example" style="position: relative; top: 40px;">
+        <label for="color" style="margin-right: 30px">Choose your character</label>
+        <select name="color" id="color">
+          <option value="vaxou">vaxou</option>
+          <option value="ciarletta">ciarletta</option>
+          <option value="rousseau">rousseau</option>
+      </select>
+      </div>
+      <div class="form-example" style="position: relative; top: 50px;">
+        <button style="background-color:#04AA6D; border-color:#04AA6D; width: 150px; position: absolute; left: 100px; margin-top: 25px;"type="submit" class="btn btn-primary">Play!</button>
+      </div>
+    </form>
+  </div>
+  <div style="position: absolute; bottom: 110px;">
+    <a href="https://github.com/JulFruit/testMineIo"><img style="position: absolute; left: 155px;" src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="35" height="35"></a>
+  </div>
+  <div style="position: absolute; bottom: 60px; left:85px">
+    <a href="https://github.com/JulFruit"><img style="position: absolute; left: 20px;" src="https://avatars.githubusercontent.com/u/81392286?v=4" width="35" height="35"></a>
+    <a href="https://github.com/Niija"><img style="position: absolute; left: 60px;" src="https://avatars.githubusercontent.com/u/85136018?s=400&v=4" width="35" height="35"></a>
+    <a href="https://github.com/Mauriceter"><img style="position: absolute; left: 100px;" src="https://avatars.githubusercontent.com/u/85106280?v=4" width="35" height="35"></a>
+    <a href="https://github.com/marceau-m"><img style="position: absolute; left: 140px;" src="https://avatars.githubusercontent.com/u/85106263?v=4" width="35" height="35"></a>
+    <a href="https://github.com/Ikaroc-info"><img style="position: absolute; left: 180px;" src="https://avatars.githubusercontent.com/u/85106146?v=4" width="35" height="35"></a>
+  </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var socket = io.connect();
+
+  function envoiCredential(mess) {
+    // On récupère le message
+    var pseudo = document.getElementById('pseudo').value;
+    var color = document.getElementById('color').value;
+    socket.emit('Credential', {'pseudo' : pseudo,'color' : color, });
+    document.location.href='http://localhost:3000/test?login='+pseudo+'&color='+color; 
+    return false;
+  }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>

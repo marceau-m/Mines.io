@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <style type="text/css">
+            html{
+            margin: 0;
+            padding: 0;
+            height: 98%;
+            width: 98%;
+            }
+
+            body {
+            margin: 0;
+            border: 0;
+            padding: 0;
+            height: 98%;
+            }
+
+            #all_game {
+                height: 100%;
+                width: 100%;
+            }
+            
+            ol, ul {
+            padding-left: 30px;
+            }
+
+            .status {
+            margin-bottom: 10px;
+            }
+
+            .player {
+            width: 80%;
+            height:80%;
+            
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: auto;
+            margin-bottom: auto;
+            }
+
+            .circle {
+            display: flex;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 50%;
+            background-color: green;
+            }
+
+
+            .text {
+            font-weight: bold;
+            color: #FFF;
+            position: absolute;
+            top:50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            }
+
+            .square:focus {
+            outline: none;
+            }
+
+            .kbd-navigation .square:focus {
+            background: #ddd;
+            }
+
+            #game {
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+            width: 100%;
+            }
+
+            #mousepos {
+            position: absolute;
+            top : 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            z-index: 2;
+            }
+
+
+            .parent {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            margin: 10px;
+            overflow: hidden;
+            }
+
+            .food {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            }
+
+            .fooddisplay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-color: #ddd;
+            }
+
+            .opponents {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            }
+
+            .opponentsdisplay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            }
+
+
+            .game-info {
+            margin-left: 20px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="all_game"></div>
+        <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+        <script>
+            'use strict';
+
+            const e = React.createElement;
+
+            let players= {};
+            let url=window.location.href
+            let cred=url.split('?')[1].split('&')
+            let myname=cred[0].split('=')[1]
+            let mycolor=cred[1].split('=')[1]
+            let playersize=200;
+            let foods = [];
+            let foodsize = 10; 
+            let packet = {"name" : myname, "direction": [0,0]}
+
+            let w = window.innerWidth;
+            let h = window.innerHeight;
+
+            var socket = io.connect();
+            socket.emit('newPlayer', {'name':myname,'color':mycolor});
+            socket.emit('newPacket', packet);
+
+            // On creer l'evenement recupererInfos pour recuperer direcement les joueurs sur le serveur
+            socket.on('recupererInfos', function (playersInfos) {
+                // playersInfos est le tableau contenant tous les coos, usernames...
+                players=playersInfos
+                ReactDOM.render(e(Game), domContainer);
+            });
+
+            socket.on('death', function (req) {
+                document.location.href = 'http://localhost:3000/death?login='+myname+'&color='+mycolor
+            });
+            
+            socket.on('sendPacket',function(){
+                socket.emit('newPacket', packet);
+            });
+
+            //idem avec la nourriture
+            socket.on('recupererFoods', function (foodsInfos) {
+                foods = foodsInfos;
+            });
+
+            class Game extends React.Component {
+            _onMouseMove(e) {
+                this.setState({ x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY });
+            }
+            constructor(props) {
+                super(props);
+                this.state = { x: 0, y: 0 };
+            }
+            render() {
+                const { x, y } = this.state;
+                var x_vect=x-w/2
+                var y_vect=-(y-h/2)
+                var norm = Math.sqrt(x_vect*x_vect+y_vect*y_vect)
+                x_vect=x_vect/norm
+                y_vect=-y_vect/norm
+                // if(y>h/2 && y_vect<0){
+                //     y_vect=-y_vect
+                // }
+                let direction=[x_vect, y_vect]
+                packet = {"name" : myname, "direction": direction}
+
+                
+                return e (
+                    'div', {className:"parent"},
+                        e ('div', {id:"game"}, 
+                            e('div', {className:"opponents"}, e(Opponents))
+                        ),
+                        e( 'div', {className:"food"}, e(Food)
+                        ),
+                        e ('div', {id:"mousepos", onMouseMove:this._onMouseMove.bind(this)})
+                );
+            }
+            }
+
+
+            class Opponents extends React.Component {
+            renderPlayer(player) {
+                let mysize = players[myname]["size"]
+                let othersize = players[player]["size"]
+                let mypos = players[myname]["position"]
+                let otherpos = players[player]["position"]
+                let scale = playersize/mysize;
+                const playerStyle = {
+                display: "flex",
+                margin_left: "auto",
+                margin_right: "auto",
+                margin_top: "auto",
+                margin_bottom: "auto",
+                position:"absolute", 
+                left: w/2 + scale*(otherpos[0] - mypos[0]) - othersize*scale/2,
+                top: h/2 + scale*(otherpos[1] - mypos[1])- othersize*scale/2, 
+                width: othersize*scale, 
+                height: othersize*scale,
+                };
+                return e(
+                    'div', {className:"opponent", style:playerStyle},
+                        e('img',{src:'./images/'+players[player]['color']+".png",alt:"Mechant" }),
+                        e('p', {className:"text"}, player)
+                )
+            }
+
+            render() {
+                return e(
+                    'div',{className:"opponentdisplay"},Object.keys(players).map(this.renderPlayer)
+                ); //erreur Each child in a list should have a unique "key" prop.
+            }
+            }
+
+            class Food extends React.Component {
+            renderFood(food) {
+                let mysize = players[myname]["size"]
+                let mypos = players[myname]["position"]
+                let foodpos = food
+                let scale = playersize/mysize;
+                const foodStyle = {
+                display: "flex",
+                margin_left: "auto",
+                margin_right: "auto",
+                margin_top: "auto",
+                margin_bottom: "auto",
+                position:"absolute", 
+                left: w/2 + scale*(foodpos[0]-mypos[0]) - foodsize*scale/2,
+                top: h/2 + scale*(foodpos[1]-mypos[1]) - foodsize*scale/2, 
+                width: foodsize*scale, 
+                height: foodsize*scale,
+                background_color: "blue",
+                };
+                return e(
+                    'div', {className:"food", class:"circle", style:foodStyle},
+                        e('img',{src:'./images/'+'artem.png',alt:"Mechant" })
+                )
+            };
+            render() {
+                let mypos = players[myname]["position"]
+                let mysize = players[myname]["size"]
+                let scale = mysize/playersize;
+                return e(
+                    'div',{className:"fooddisplay"},foods.filter(item => ( Math.abs(item[0]-mypos[0])<w/2*scale+foodsize && Math.abs(item[1]-mypos[1])<h/2*scale+foodsize )).map(this.renderFood)
+                );
+            };
+            }
+
+            const domContainer = document.querySelector('#all_game');
+            ReactDOM.render(e(Game), domContainer);
+        </script>
+    </body>
+</html>
