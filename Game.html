@@ -155,7 +155,9 @@
             let h = window.innerHeight;
 
             var socket = io.connect();
+            //appel de la fonction newPlayer du server pour initialiser un nouveau joueur
             socket.emit('newPlayer', {'name':myname,'color':mycolor});
+            //appel de la fonction newPacket du server envoyant une direction et le nom du joueur 
             socket.emit('newPacket', packet);
 
             // On creer l'evenement recupererInfos pour recuperer direcement les joueurs sur le serveur
@@ -165,16 +167,19 @@
                 ReactDOM.render(e(Game), domContainer);
             });
 
-            socket.on('death', function (req) {
+            socket.on('goDeath', function (req) {
+                //fonction de mort, renvoie vers l'écran de mort
                 document.location.href = url.split('/test')[0]+'/death?login='+myname+'&color='+mycolor
             });
             
             socket.on('sendPacket',function(){
+                //fonction qui quand appelée, appel la fonction newPacket du server avec les paquets comme arguments
                 socket.emit('newPacket', packet);
             });
 
             //idem avec la nourriture
             socket.on('recupererFoods', function (foodsInfos) {
+                //fonction récupérant les informations sur la nourriture
                 foods = foodsInfos;
             });
 
