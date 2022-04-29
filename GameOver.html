@@ -27,6 +27,7 @@
     <button onclick="go_to_Connexion()">Retry?</button>
     <script type="text/javascript">
         function go_to_Connexion(){
+          //renvoi l'utilisateur vers la page de connexion.
             url=window.location.href
             cred=url.split('?')[1].split('&')
             var myPseudo=cred[0].split('=')[1]

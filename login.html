@@ -17,7 +17,7 @@
   <p style="font-size: 30px; text-align: center; color:#04AA6D"><strong>Mines.io</strong></p>
 
     <div style="position: absolute; top: 100px;">
-    <form action="" method="get" class="form-example" onsubmit="return (envoiCredential());">
+    <form action="" method="get" class="form-example" onsubmit="return (envoiCredential());"> 
       <div class="form-example" style="position: relative; top: 10px;">
         <label for="pseudo" style="margin-right: 10px">Nickname</label>
         <input type="text" name="pseudo" id="pseudo" required>
@@ -52,12 +52,11 @@
   var socket = io.connect();
 
   function envoiCredential(mess) {
-    // On récupère le message
-    var pseudo = document.getElementById('pseudo').value;
+    var pseudo = document.getElementById('pseudo').value; // Récupération du pseudo et de la couleur dans les différents champs
     var color = document.getElementById('color').value;
-    socket.emit('Credential', {'pseudo' : pseudo,'color' : color, });
+    socket.emit('Credential', {'pseudo' : pseudo,'color' : color, }); //envoi du pseudo et de la couleur en utilisant la fonction Credential du server
     let url=window.location.href
-    document.location.href=url+'test?login='+pseudo+'&color='+color; 
+    document.location.href=url+'test?login='+pseudo+'&color='+color; //accès au lien du jeu avec les credentials
     return false;
   }
 </script>
