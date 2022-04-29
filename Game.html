@@ -166,7 +166,7 @@
             });
 
             socket.on('death', function (req) {
-                document.location.href = 'http://localhost:3000/death?login='+myname+'&color='+mycolor
+                document.location.href = url.split('/test')[0]+'/death?login='+myname+'&color='+mycolor
             });
             
             socket.on('sendPacket',function(){
