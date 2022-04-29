@@ -57,7 +57,7 @@
     var color = document.getElementById('color').value;
     socket.emit('Credential', {'pseudo' : pseudo,'color' : color, });
     let url=window.location.href
-    document.location.href=url+'/test?login='+pseudo+'&color='+color; 
+    document.location.href=url+'test?login='+pseudo+'&color='+color; 
     return false;
   }
 </script>
