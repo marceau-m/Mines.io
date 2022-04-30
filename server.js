@@ -95,8 +95,8 @@ io.on('connection', function (socket) {
 		var prev_time=players[packet["name"]]["time"]
 		players[packet["name"]]["time"]=new Date()
 		var delta_t=players[packet["name"]]["time"]-prev_time
-		players[packet["name"]]["position"][0] += packet["direction"][0] * 30*delta_t/1000;
-		players[packet["name"]]["position"][1] += packet["direction"][1] * 30*delta_t/1000;
+		players[packet["name"]]["position"][0] += packet["direction"][0] * 30*delta_t/1000 * 30/Math.sqrt(players[packet['name']]["size"]);
+		players[packet["name"]]["position"][1] += packet["direction"][1] * 30*delta_t/1000 * 30/Math.sqrt(players[packet['name']]["size"]);
 
 		//check bordure terrain
 		if (players[packet["name"]]["position"][0] > size/2){
@@ -117,8 +117,7 @@ io.on('connection', function (socket) {
 			if ((Math.sqrt((e[0]-players[packet["name"]]["position"][0])**2 + (e[1]-players[packet["name"]]["position"][1])**2)) < players[packet["name"]]["size"]/2){
 				foods = foods.filter(function(f) { return f !== e })
 				foods.push([Math.floor(Math.random()*size-size/2),Math.floor(Math.random()*size-size/2)]);
-				players[packet["name"]]["size"] += 0.3;
-				
+				players[packet["name"]]["size"] += 0.3;	
 			}
 		})
 
@@ -127,7 +126,7 @@ io.on('connection', function (socket) {
 			if (player != packet["name"]){
 				if ((Math.sqrt((players[player]["position"][0]-players[packet["name"]]["position"][0])**2 + (players[player]["position"][1]-players[packet["name"]]["position"][1])**2)) < players[packet["name"]]["size"]){
 					if (players[packet["name"]]["size"] <= players[player]["size"]){
-						players[player]["size"]+=players[packet["name"]]["size"];
+						players[player]["size"]=Math.sqrt(Math.pow(players[player]["size"],2)+Math.pow(players[packet["name"]]["size"],2));
 						socket.emit('goDeath',"req");
 						delete players[packet["name"]];
 					}
