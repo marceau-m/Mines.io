@@ -95,8 +95,8 @@ io.on('connection', function (socket) {
 		var prev_time=players[packet["name"]]["time"]
 		players[packet["name"]]["time"]=new Date()
 		var delta_t=players[packet["name"]]["time"]-prev_time
-		players[packet["name"]]["position"][0] += packet["direction"][0] * 30*delta_t/1000 * 30/Math.sqrt(players[packet['name']]["size"]);
-		players[packet["name"]]["position"][1] += packet["direction"][1] * 30*delta_t/1000 * 30/Math.sqrt(players[packet['name']]["size"]);
+		players[packet["name"]]["position"][0] += packet["direction"][0] * 30*delta_t/1000 * 20/Math.sqrt(players[packet['name']]["size"]);
+		players[packet["name"]]["position"][1] += packet["direction"][1] * 30*delta_t/1000 * 20/Math.sqrt(players[packet['name']]["size"]);
 
 		//check bordure terrain
 		if (players[packet["name"]]["position"][0] > size/2){
