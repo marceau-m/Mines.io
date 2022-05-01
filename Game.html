@@ -281,7 +281,7 @@
                             e('div', {className:"opponents"}, e(Opponents))
                         ),
                         e('div', {className:"game-info"}, e(Leaderboard)),
-                        e('p', {className:"sizedisplay"}, "Taille: "+Math.round(players[myname]["size"]) + "\n position: " + Math.round(players[myname]["position"][0]) + "," + Math.round(players[myname]["position"][1]) ),
+                        e('p', {className:"sizedisplay"}, "Taille: "+Math.round(players[myname]["size"]) + " | Position: " + Math.round(players[myname]["position"][0]) + "," + Math.round(players[myname]["position"][1]) ),
                         e( 'div', {className:"food"}, e(Food)),
                         e ('div', {id:"mousepos", onMouseMove:this._onMouseMove.bind(this)})
                 );
