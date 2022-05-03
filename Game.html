@@ -221,9 +221,6 @@
             //appel de la fonction newPlayer du server pour initialiser un nouveau joueur
             socket.emit('newPlayer', {'name':myname,'color':mycolor});
 
-            socket.on('refresh', function() {
-                window.location.reload();
-            });
             //appel de la fonction newPacket du server envoyant une direction et le nom du joueur 
             socket.emit('newPacket', packet);
 
