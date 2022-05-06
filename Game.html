@@ -83,7 +83,7 @@
             margin-left: auto;
             margin-right: auto;
             border-radius: 50%;
-            background-color: green;
+            background-color: black;
             }
 
 
@@ -167,6 +167,7 @@
             .game-info {
             display: flex;
             margin-left: 20px;
+            z-index: 3;
             }
 
             th { 
@@ -348,9 +349,15 @@
                 height: foodsize*scale,
                 background_color: "blue",
                 };
+                let foodlike
+                if (mysize>250) {
+                    foodlike = e('div')
+                } else {
+                    foodlike = e('img',{src:'./images/'+'artem.png',alt:"Mechant" })
+                }
                 return e(
                     'div', {className:"food", class:"circle", style:foodStyle},
-                        e('img',{src:'./images/'+'artem.png',alt:"Mechant" })
+                        foodlike
                 )
             };
             render() {

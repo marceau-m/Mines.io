@@ -123,7 +123,7 @@ io.on('connection', function (socket) {
 		//check for collision
 		for (var player in players){
 			if (player != packet["name"] && players[packet["name"]]){
-				if ((Math.sqrt((players[player]["position"][0]-players[packet["name"]]["position"][0])**2 + (players[player]["position"][1]-players[packet["name"]]["position"][1])**2)) < players[packet["name"]]["size"]){
+				if ((Math.sqrt((players[player]["position"][0]-players[packet["name"]]["position"][0])**2 + (players[player]["position"][1]-players[packet["name"]]["position"][1])**2)) < players[player["size"]] + players[packet["name"]]["size"]){
 					if (players[packet["name"]]["size"] <= players[player]["size"]){
 						players[player]["size"]=Math.sqrt(Math.pow(players[player]["size"],2)+Math.pow(players[packet["name"]]["size"],2));
 						socket.emit('goDeath',"req");
