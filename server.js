@@ -67,7 +67,6 @@ var foods = [[5,5],[5,-5]];
 let size = 4000;
 
 for(let i=0; i<size*size/5000; i++){
-	console.log(i);
 	foods.push([Math.floor(Math.random()*size-size/2),Math.floor(Math.random()*size-size/2)]);
 }
 //console.log(foods);
@@ -123,7 +122,7 @@ io.on('connection', function (socket) {
 
 		//check for collision
 		for (var player in players){
-			if (player != packet["name"]){
+			if (player != packet["name"] && players[packet["name"]]){
 				if ((Math.sqrt((players[player]["position"][0]-players[packet["name"]]["position"][0])**2 + (players[player]["position"][1]-players[packet["name"]]["position"][1])**2)) < players[packet["name"]]["size"]){
 					if (players[packet["name"]]["size"] <= players[player]["size"]){
 						players[player]["size"]=Math.sqrt(Math.pow(players[player]["size"],2)+Math.pow(players[packet["name"]]["size"],2));
