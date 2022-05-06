@@ -289,9 +289,11 @@
                             e ('div', {id:"mousepos", onMouseMove:this._onMouseMove.bind(this)})
                     );
                 }
-                return e('div',{});
+                else {
+                    return e('div',{});
+                }
             }
-        }
+            }
 
 
             class Opponents extends React.Component {
