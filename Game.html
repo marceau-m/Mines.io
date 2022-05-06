@@ -349,15 +349,9 @@
                 height: foodsize*scale,
                 background_color: "blue",
                 };
-                let foodlike
-                if (mysize>250) {
-                    foodlike = e('div')
-                } else {
-                    foodlike = e('img',{src:'./images/'+'artem.png',alt:"Mechant" })
-                }
                 return e(
                     'div', {className:"food", class:"circle", style:foodStyle},
-                        foodlike
+                    e('img',{src:'./images/'+'artem.png',alt:"Mechant" })
                 )
             };
             render() {
